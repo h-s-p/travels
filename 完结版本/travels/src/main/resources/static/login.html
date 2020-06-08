@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            background-image: url('https://s1.ax1x.com/2020/06/04/twwn5q.jpg');
+            background-repeat: repeat-y;
+        }
+
+        .mod-new-reg-content {
+            /* 相对路径 */
+            position: absolute;
+            right: 200px;
+            top: 20%;
+            margin: 0 0 22px 39px
+            margin-top: 80px;
+            width: 350px;
+            height: 320px;
+            *background: #fff;
+            background: #fff \9;
+            background: rgba(255, 255, 255, .9);
+            /* 圆角 */
+            border-radius: 12px;
+            /* 防止溢出 */
+            overflow: hidden
+        }
+
+        .mod-new-reg-content .new-reg-guide-login {
+            margin: 20px 0 22px 39px
+        }
+
+        .shurukuang {
+            font-size: 18px;
+            height: 25px;
+            width: 260px;
+            /* 边框样式 */
+            border: 1px solid #c8cccf;
+            color: #6a6f77;
+        }
+
+        .table-1 {
+            position: relative;
+            /*靠右距离*/
+            left: 45px;
+            /*靠上距离*/
+
+            height: 160px;
+        }
+
+        /* 按钮*/
+        button {
+            /* 创建渐变 */
+            background: #70e1f5;
+            background-image: -webkit-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: -moz-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: -ms-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: -o-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: linear-gradient(to bottom, #70e1f5, #ffd194);
+            width: 260px; /*设置按钮宽度*/
+            height: 40px; /*设置按钮高度*/
+            color: white; /*字体颜色DarkBlue*/
+            border-radius: 3px; /*让按钮变得圆滑一点*/
+            border-width: 0; /*消去按钮丑的边框*/
+            margin: 0;
+            outline: none; /*取消轮廓*/
+            font-family: KaiTi; /*字体设置为楷体*/
+            font-size: 17px; /*设置字体大小*/
+            text-align: center; /*字体居中*/
+            cursor: pointer; /*设置鼠标箭头手势*/
+
+        }
+
+        /*鼠标移入按钮范围时改变颜色*/
+        button:hover {
+            background: #2079b0;
+            background-image: -webkit-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: -moz-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: -ms-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: -o-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: linear-gradient(to bottom, #4568dc, #b06ab3);
+            text-decoration: none;
+        }
+
+        .pbiaoqian {
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div id="warp">
+        <div>
+            <div class="mod-new-reg-content">
+                <br>
+
+                <div class="new-reg-guide-login">
+
+
+                    <h3>帐号密码登录</h3>
+                    <div class="pbiaoqian"><p>没有账号？ <a href="reg.html">去注册</a></p></div>
+
+
+                </div>
+
+
+                <div class="table-1">
+                    <label>
+                        <tr>
+
+
+                            <td><input type="text" class="shurukuang" v-model="user.username" name="yonghuming"
+                                       placeholder="请输入你用户名"/></td>
+                        </tr>
+                    </label>
+                    <br>
+                    <label>
+                        <tr>
+
+                            <td><input type="password" class="shurukuang" v-model="user.password" name="password"
+                                       placeholder="请输入你用户名"/>
+                        </tr>
+                    </label>
+
+                    <div>
+                        <br>
+                        <label><input type="radio" name="" value="">记住密码</label>
+                    </div>
+                    <br>
+                    <button type="button" @click="login">登 录</button>&emsp;
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
+
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script>
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            user: {}
+        },
+        methods: {
+            login() {//登录
+                axios.post("http://localhost:8989/user/login", this.user).then((res) => {
+                    console.log(res.data);
+                    localStorage.setItem("userid", res.data.userId);
+                    if (res.data.state) {
+                        alert(res.data.msg + ",点击确定进入主页!")
+                        location.href = './province/provincelist.html';
+                    } else {
+                        alert(res.data.msg);
+                    }
+                });
+            }
+        }
+    })
+
+</script>
+

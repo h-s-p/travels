@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+        body {
+            background-image: url('https://s1.ax1x.com/2020/06/04/twwn5q.jpg');
+            background-repeat: repeat-y;
+        }
+
+        .mod-new-reg-content {
+            /* 相对路径 */
+            position: absolute;
+            right: 200px;
+            top: 7%;
+            margin: 0 0 22px 39px
+            margin-top: 80px;
+            width: 460px;
+            height: 480px;
+            *background: #fff;
+            background: #fff \9;
+            background: rgba(255, 255, 255, .9);
+            /* 圆角 */
+            border-radius: 12px;
+            /* 防止溢出 */
+            overflow: hidden
+        }
+
+        .mod-new-reg-content .new-reg-guide-login {
+            margin: 50px 0 22px 39px
+        }
+
+        .table-1 {
+            position: relative;
+            /*靠右距离*/
+            left: 45px;
+            /*靠上距离*/
+            top: 10px;
+            height: 160px;
+        }
+
+        /*用户名，邮箱，密码输入框*/
+        .shurukuang {
+
+            font-size: 18px;
+            height: 25px;
+            width: 280px;
+            /* 圆角 */
+            border-radius: 4px;
+            /* 边框样式 */
+            border: 1px solid #c8cccf;
+            color: #6a6f77;
+
+
+        }
+
+        /*验证码和验证码输入框的位置*/
+        .yanzhengma {
+            position: relative;
+            left: 47px;
+            top: 20px;
+            height: 160px;
+        . padding-left: 5 px;
+        }
+
+        /*验证码输入框*/
+        .yanzhengmashurukuang {
+            font-size: 18px;
+            height: 25px;
+            width: 155px;
+            /* 圆角 */
+            border-radius: 4px;
+            /* 边框样式 */
+            border: 1px solid #c8cccf;
+            color: #6a6f77;
+
+        }
+
+        /* 按钮*/
+        button {
+            /* 创建渐变 */
+            background: #70e1f5;
+            background-image: -webkit-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: -moz-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: -ms-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: -o-linear-gradient(top, #70e1f5, #ffd194);
+            background-image: linear-gradient(to bottom, #70e1f5, #ffd194);
+            width: 340px; /*设置按钮宽度*/
+            height: 40px; /*设置按钮高度*/
+            color: white; /*字体颜色DarkBlue*/
+            border-radius: 3px; /*让按钮变得圆滑一点*/
+            border-width: 0; /*消去按钮丑的边框*/
+            margin: 0;
+            outline: none; /*取消轮廓*/
+            font-family: KaiTi; /*字体设置为楷体*/
+            font-size: 17px; /*设置字体大小*/
+            text-align: center; /*字体居中*/
+            cursor: pointer; /*设置鼠标箭头手势*/
+        }
+
+        /*鼠标移入按钮范围时改变颜色*/
+        button:hover {
+            background: #2079b0;
+            background-image: -webkit-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: -moz-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: -ms-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: -o-linear-gradient(top, #4568dc, #b06ab3);
+            background-image: linear-gradient(to bottom, #4568dc, #b06ab3);
+            text-decoration: none;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<div id="app"><!--//实现数据流-->
+    <div id="wrap"><!--/验证码功能实现-->
+        <div class="wrap1">
+            <div class=" mod-new-reg-content">
+                <div class="new-reg-guide-login">
+                    <h2>欢迎注册</h2>
+                    <p>已有帐号？ <a href="login.html">立即登录</a></p>
+                </div>
+
+
+                <table class="table-1">
+                    <tr>
+                        <td>用户名:</td>
+                        <td><input type="text" v-model="user.username" class="shurukuang" name="username"
+                                   placeholder="请输入你用户名"/> <br></td>
+                    </tr>
+                    <tr>
+                        <td>邮　箱:</td>
+                        <td><input type="text" v-model="user.email" name="email" class="shurukuang"
+                                   placeholder="请输入你邮箱"/></td>
+                    </tr>
+                    <tr>
+                        <td>密　码:</td>
+                        <td><input type="password" v-model="user.password" class="shurukuang" name="password"
+                                   placeholder="请输入你密码"/></td>
+                    </tr>
+                </table>
+
+                <div class="yanzhengma">
+                    <label>
+                        <td>验证码:</td>
+                        <input type="text" v-model="code" class="yanzhengmashurukuang " name="vcode"
+                               placeholder="请输入验证码"/>
+
+                    </label>
+                    　 <img :src="src" id="img-vcode" @click="getImage" :key="key" height="25px" width="115px"> <br>
+
+
+                    <br>
+                    <button type="button" class="zhuchebutton" @click="saveUserInfo"
+                    >立即注册
+                    </button>&emsp;
+
+
+                       
+                </div>
+                   
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+
+
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            user: {},
+            code: "",
+            src: "",
+            key: "",
+        },
+        methods: {
+            saveUserInfo() {  //注册
+                console.log(this.user.username + this.user.password + this.user.email);
+                console.log(this.code);
+                if (!this.user.username) {
+                    alert('用户名不能为空!!!!');
+                    return;
+                }
+                if (!this.user.password) {
+                    alert('密码不能为空!!!!');
+                    return;
+                }
+                //发送axios
+                axios.post("http://localhost:8989/user/register?code=" + this.code + "&key=" + this.key, this.user).then((res) => {
+                    console.log(res);
+                    if (res.data.state) {
+                        alert(res.data.msg + ",点击确定跳转到登录页面!!!");
+                        location.href = './login.html';
+                    } else {
+                        alert(res.data.msg);
+                    }
+                });
+            },
+            getImage() {   //获取验证码
+                _this = this;
+                axios.get("http://localhost:8989/user/getImage").then((res) => {
+                    console.log(res.data.key);
+                    _this.src = "data:image/png;base64," + res.data.image;
+                    _this.key = res.data.key;
+                });
+            }
+        },
+        created() {
+            this.getImage();//获取验证码
+        }
+
+    });
+</script>
+
+
+
